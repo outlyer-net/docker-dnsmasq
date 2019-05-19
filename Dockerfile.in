@@ -1,8 +1,8 @@
 ARG ARCHITECTURE=amd64
 ARG DOCKER_PREFIX=_
-FROM ${DOCKER_PREFIX}/alpine:edge
+FROM ${DOCKER_PREFIX}/alpine:latest
 FROM alpine:edge
-LABEL maintainer="dev@jpillora.com"
+LABEL maintainer="Toni Corvera <outlyer@gmail.com>"
 ARG ARCHITECTURE
 # webproc release settings
 ENV WEBPROC_VERSION 0.2.2
