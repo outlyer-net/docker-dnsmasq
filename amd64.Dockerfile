@@ -41,7 +41,7 @@ COPY --from=0 /dnsmasq.default /etc/default/dnsmasq
 COPY dnsmasq.conf /etc/dnsmasq.conf
 
 # TODO: 5353/udp?
-EXPOSE 80/tcp 67/udp
+EXPOSE 80/tcp 67/udp 53/tcp 53/udp
 
 # run!
 ENTRYPOINT ["webproc","--port","80","--config","/etc/dnsmasq.conf","--","dnsmasq","--no-daemon"]
