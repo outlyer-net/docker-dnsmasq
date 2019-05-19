@@ -1,9 +1,13 @@
-# docker-dnsmasq
+# docker-dnsmasq-multiarch
 
 dnsmasq in a docker container, configurable via a [simple web UI](https://github.com/jpillora/webproc)
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/jpillora/dnsmasq.svg)][dockerhub]
-[![Image Size](https://images.microbadger.com/badges/image/jpillora/dnsmasq.svg)][dockerhub]
+This image is based on jpillora's dnsmasq image ([Github](https://github.com/jpillora/docker-dnsmasq),
+[Docker Hub](https://hub.docker.com/r/jpillora/dnsmasq/dockerfile)), with very small changes and
+support for i386 and arm besides amd64.
+
+[![Docker Pulls](https://img.shields.io/docker/pulls/outlyernet/dnsmasq-multiarch.svg)][dockerhub]
+[![Image Size](https://images.microbadger.com/badges/image/outlyernet/dnsmasq-multiarch.svg)][dockerhub]
 
 ### Usage
 
@@ -33,7 +37,7 @@ dnsmasq in a docker container, configurable via a [simple web UI](https://github
    	--name dnsmasq \
    	-d \
    	-p 53:53/udp \
-   	-p 5380:8080 \
+   	-p 5380:80 \
    	-v /opt/dnsmasq.conf:/etc/dnsmasq.conf \
    	--log-opt "max-size=100m" \
    	-e "HTTP_USER=foo" \
@@ -60,7 +64,7 @@ dnsmasq in a docker container, configurable via a [simple web UI](https://github
 
 #### MIT License
 
-Copyright &copy; 2018 Jaime Pillora &lt;dev@jpillora.com&gt;
+Copyright &copy; 2018 Jaime Pillora &lt;dev@jpillora.com&gt;, 2019 Toni Corvera &lt;outlyer@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
