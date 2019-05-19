@@ -40,7 +40,7 @@ $(IMAGE_NAME).latest-%: %.Dockerfile
 
 # Repository-specific stuff. Can only be used as-is by me
 
-push-images: tag
+push-images:
 	for image in $(IMAGES); do \
 		docker push $$image ; \
 	done
