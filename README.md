@@ -7,7 +7,7 @@ This image is based on *jpillora*'s `dnsmasq` image ([Github](https://github.com
 support for i386 and arm besides amd64.
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/outlyernet/dnsmasq-multiarch.svg)][dockerhub]
-[![Image Size](https://images.microbadger.com/badges/image/outlyernet/dnsmasq-multiarch.svg)][dockerhub]
+[![Image Size](https://images.microbadger.com/badges/image/outlyernet/dnsmasq-multiarch.svg)][microbadger]
 
 #### Information
 
@@ -93,3 +93,4 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [dockerhub-jpillora]: https://hub.docker.com/r/jpillora/dnsmasq/
 [dockerhub]: https://hub.docker.com/r/outlyernet/dnsmasq-multiarch/
 [github]: https://github.com/outlyer-net/docker-dnsmasq-multiarch
+[microbadger]: https://microbadger.com/images/outlyernet/dnsmasq-multiarch
