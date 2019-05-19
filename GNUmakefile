@@ -10,9 +10,6 @@ DOCKERFILES=$(addsuffix .Dockerfile,$(ARCHITECTURES))
 IMAGES_TARGET=$(addprefix $(IMAGE_NAME).latest-,$(ARCHITECTURES))
 IMAGES=$(addprefix $(IMAGE_NAME):latest-,$(ARCHITECTURES))
 
-RELEASE=$(shell sed -e '/ENV WEBPROC_VERSION/!d' -e 's/^[^"]*//' -e 's/"//g' Dockerfile.in)
-VERSIONED_IMAGES=$(addprefix $(IMAGE_NAME):$(RELEASE)-,$(ARCHITECTURES))
-
 # Download URLs take the form:
 # https://github.com/jpillora/webproc/releases/download/$RELEASE/webproc_linux_$ARCH.gz
 # e.g.
@@ -41,16 +38,10 @@ all: $(DOCKERFILES) $(IMAGES_TARGET)
 $(IMAGE_NAME).latest-%: %.Dockerfile
 	docker build -t $(subst .,:,$@) -f $< .
 
-# Add versioned tags to the images
-tag: $(IMAGES_TARGET)
-	for image in $(IMAGES); do \
-		docker tag $$image `echo $$image | sed 's/latest/$(RELEASE)/g'`; \
-	doneg
-
 # Repository-specific stuff. Can only be used as-is by me
 
 push-images: tag
-	for image in $(IMAGES) $(VERSIONED_IMAGES); do \
+	for image in $(IMAGES); do \
 		docker push $$image ; \
 	done
 
@@ -59,17 +50,12 @@ manifest: push-images
 	env DOCKER_CLI_EXPERIMENTAL=enabled \
 		docker manifest create $(IMAGE_NAME):latest \
 			$(IMAGES)
-	env DOCKER_CLI_EXPERIMENTAL=enabled \
-		docker manifest create $(IMAGE_NAME):$(RELEASE) \
-			$(VERSIONED_IMAGES)	
 
 # Forceful, but gets rid of trouble
 # <https://github.com/docker/cli/issues/954>
 push-manifest: manifest
 	env DOCKER_CLI_EXPERIMENTAL=enabled \
 		docker manifest push --purge $(IMAGE_NAME):latest
-	env DOCKER_CLI_EXPERIMENTAL=enabled \
-		docker manifest push --purge $(IMAGE_NAME):$(RELEASE)
 
 push: push-manifest
 
