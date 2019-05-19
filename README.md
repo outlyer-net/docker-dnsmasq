@@ -2,12 +2,17 @@
 
 dnsmasq in a docker container, configurable via a [simple web UI](https://github.com/jpillora/webproc)
 
-This image is based on jpillora's dnsmasq image ([Github](https://github.com/jpillora/docker-dnsmasq),
-[Docker Hub](https://hub.docker.com/r/jpillora/dnsmasq/dockerfile)), with very small changes and
+This image is based on *jpillora*'s `dnsmasq` image ([Github](https://github.com/jpillora/docker-dnsmasq),
+[Docker Hub][dockerhub-jpillora]), with very small changes and
 support for i386 and arm besides amd64.
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/outlyernet/dnsmasq-multiarch.svg)][dockerhub]
 [![Image Size](https://images.microbadger.com/badges/image/outlyernet/dnsmasq-multiarch.svg)][dockerhub]
+
+#### Information
+
+* [Docker Hub][dockerhub]
+* [Github][github]
 
 ### Usage
 
@@ -85,4 +90,6 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-[dockerhub]: https://hub.docker.com/r/jpillora/dnsmasq/
+[dockerhub-jpillora]: https://hub.docker.com/r/jpillora/dnsmasq/
+[dockerhub]: https://hub.docker.com/r/outlyernet/dnsmasq-multiarch/
+[github]: https://github.com/outlyer-net/docker-dnsmasq-multiarch
