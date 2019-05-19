@@ -14,7 +14,6 @@ RUN echo -e "ENABLED=1\nIGNORE_RESOLVCONF=yes" > /dnsmasq.default
 
 # Stage 1: The actual produced image
 FROM ${DOCKER_PREFIX}/alpine:latest
-FROM alpine:edge
 LABEL maintainer="Toni Corvera <outlyer@gmail.com>"
 ARG ARCHITECTURE
 # import webproc binary from previous stage
