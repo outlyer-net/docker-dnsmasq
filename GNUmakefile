@@ -1,6 +1,6 @@
 # Official and semi-official architectures: https://github.com/docker-library/official-images#architectures-other-than-amd64
 # Webproc for linux is available for amd64, i386 and arm
-ARCHITECTURES=amd64 armhf i386
+ARCHITECTURES=amd64 armv7 i386
 IMAGE_NAME=outlyernet/dnsmasq-multiarch
 # Dockerfile.in: Dockerfile template
 DOCKERFILE_IN=Dockerfile.in
@@ -18,20 +18,20 @@ IMAGES=$(addprefix $(IMAGE_NAME):latest-,$(ARCHITECTURES))
 # Translate the architecture names (resolution delayed to the actual rules)
 # Docker Hub prefix:
 # amd64 => amd64
-# armhf => arm32v7 (XXX: Or is it arm32v5?)
+# armv7 => arm32v7 (XXX: Or is it arm32v5?)
 # i386 => i386
-#DOCKER_PREFIX=$(shell echo $* | sed -e 's/armhf/arm32v7/' -e 's/armle/arm32v5/')
-DOCKER_PREFIX=$(subst armhf,arm32v7,$*)
+#DOCKER_PREFIX=$(shell echo $* | sed -e 's/armv7/arm32v7/' -e 's/armle/arm32v5/')
+DOCKER_PREFIX=$(subst armv7,arm32v7,$*)
 # Webproc's architecture name:
 # amd64 => amd64
-# armhf => arm
+# armv7 => arm
 # i386 => 386
-WEBPROC_ARCH=$(subst armhf,arm,$(subst i386,386,$*))
+WEBPROC_ARCH=$(subst armv7,arm,$(subst i386,386,$*))
 # Alpine architecture name:
 # amd64 => x86_64
-# armhf => armv7
+# armv7 => armv7
 # i386 => x86
-ALPINE_ARCH=$(subst armhf,armv7,$(subst i386,x86,$(subst amd64,x86_64,$*)))
+ALPINE_ARCH=$(subst i386,x86,$(subst amd64,x86_64,$*))
 
 all: $(DOCKERFILES) $(IMAGES_TARGET)
 
@@ -39,7 +39,7 @@ all: $(DOCKERFILES) $(IMAGES_TARGET)
 	sed -e 's#DOCKER_PREFIX=.*$$#DOCKER_PREFIX=$(DOCKER_PREFIX)#' \
 		-e 's!ARCHITECTURE=.*$$!ARCHITECTURE=$(WEBPROC_ARCH)!' \
 		-e 's!ALPINE_ARCH=.*$$!ALPINE_ARCH=$(ALPINE_ARCH)!' \
-		-e 's/armhf architecture\./$* architecture\./' $< > $@
+		-e 's/amd64 architecture\./$* architecture\./' $< > $@
 
 $(IMAGE_NAME).latest-%: %.Dockerfile
 	docker build -t $(subst .,:,$@) -f $< .

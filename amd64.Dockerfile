@@ -1,5 +1,13 @@
+# dnsmasq in a Docker container
+#
+# This Dockerfile creates an image for the amd64 architecture.
+#
+# <https://github.com/outlyer-net/docker-dnsmasq-multiarch>
+#
+# Must be defined before the first FROM
 ARG DOCKER_PREFIX=amd64
 ARG ARCHITECTURE=amd64
+
 # Stage 0: Preparations. To be run on the build host
 FROM alpine:latest
 ARG ARCHITECTURE
@@ -29,7 +37,6 @@ COPY --from=0 /webproc /usr/local/bin/
 # FIXME: ugly hack part 2
 COPY --from=0 /usr/sbin/dnsmasq /usr/sbin/
 # configure dnsmasq
-RUN mkdir -p /etc/default/
 COPY --from=0 /dnsmasq.default /etc/default/dnsmasq
 COPY dnsmasq.conf /etc/dnsmasq.conf
 

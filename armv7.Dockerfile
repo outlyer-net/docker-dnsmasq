@@ -1,5 +1,13 @@
+# dnsmasq in a Docker container
+#
+# This Dockerfile creates an image for the armv7 architecture.
+#
+# <https://github.com/outlyer-net/docker-dnsmasq-multiarch>
+#
+# Must be defined before the first FROM
 ARG DOCKER_PREFIX=arm32v7
 ARG ARCHITECTURE=arm
+
 # Stage 0: Preparations. To be run on the build host
 FROM alpine:latest
 ARG ARCHITECTURE

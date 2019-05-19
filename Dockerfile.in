@@ -1,5 +1,13 @@
+# dnsmasq in a Docker container
+#
+# This Dockerfile creates an image for the amd64 architecture.
+#
+# <https://github.com/outlyer-net/docker-dnsmasq-multiarch>
+#
+# Must be defined before the first FROM
 ARG DOCKER_PREFIX=_
 ARG ARCHITECTURE=amd64
+
 # Stage 0: Preparations. To be run on the build host
 FROM alpine:latest
 ARG ARCHITECTURE
