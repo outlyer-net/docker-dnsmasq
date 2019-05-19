@@ -1,5 +1,5 @@
-ARG ARCHITECTURE=amd64
-ARG DOCKER_PREFIX=_
+ARG ARCHITECTURE=arm
+ARG DOCKER_PREFIX=arm32v7
 FROM ${DOCKER_PREFIX}/alpine:edge
 FROM alpine:edge
 LABEL maintainer="dev@jpillora.com"
