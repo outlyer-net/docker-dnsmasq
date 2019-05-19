@@ -35,7 +35,7 @@ COPY --from=0 /webproc /usr/local/bin/
 # fetch dnsmasq
 #RUN apk update && apk --no-cache add dnsmasq
 # FIXME: ugly hack part 2
-COPY --from=0 /usr/sbin/dnsmasq /usr/sbin/
+COPY --from=0 /usr/sbin/dnsmasq /usr/local/sbin/
 # configure dnsmasq
 COPY --from=0 /dnsmasq.default /etc/default/dnsmasq
 COPY dnsmasq.conf /etc/dnsmasq.conf
