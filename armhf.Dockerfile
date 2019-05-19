@@ -1,22 +1,33 @@
-ARG ARCHITECTURE=arm
 ARG DOCKER_PREFIX=arm32v7
-FROM ${DOCKER_PREFIX}/alpine:edge
-FROM alpine:edge
-LABEL maintainer="dev@jpillora.com"
+ARG ARCHITECTURE=arm
+# Stage 0: Preparations. To be run on the build host
+FROM alpine:latest
 ARG ARCHITECTURE
 # webproc release settings
-ENV WEBPROC_VERSION 0.2.2
-ENV WEBPROC_URL https://github.com/jpillora/webproc/releases/download/$WEBPROC_VERSION/webproc_linux_${ARCHITECTURE}.gz
-# fetch dnsmasq and webproc binary
-RUN apk update \
-	&& apk --no-cache add dnsmasq \
-	&& apk add --no-cache --virtual .build-deps curl \
-	&& curl -sL $WEBPROC_URL | gzip -d - > /usr/local/bin/webproc \
-	&& chmod +x /usr/local/bin/webproc \
-	&& apk del .build-deps
-#configure dnsmasq
+ARG WEBPROC_VERSION=0.2.2
+ARG WEBPROC_URL="https://github.com/jpillora/webproc/releases/download/$WEBPROC_VERSION/webproc_linux_${ARCHITECTURE}.gz"
+# fetch webproc binary
+RUN wget -O - ${WEBPROC_URL} | gzip -d > /webproc \
+	&& chmod 0755 /webproc
+# dnsmasq configuration
+RUN echo -e "ENABLED=1\nIGNORE_RESOLVCONF=yes" > /dnsmasq.default
+
+# Stage 1: The actual produced image
+FROM ${DOCKER_PREFIX}/alpine:latest
+FROM alpine:edge
+LABEL maintainer="Toni Corvera <outlyer@gmail.com>"
+ARG ARCHITECTURE
+# import webproc binary from previous stage
+COPY --from=0 /webproc /usr/local/bin/
+# fetch dnsmasq
+RUN apk update && apk --no-cache add dnsmasq
+# configure dnsmasq
 RUN mkdir -p /etc/default/
-RUN echo -e "ENABLED=1\nIGNORE_RESOLVCONF=yes" > /etc/default/dnsmasq
+COPY --from=0 /dnsmasq.default /etc/default/dnsmasq
 COPY dnsmasq.conf /etc/dnsmasq.conf
-#run!
-ENTRYPOINT ["webproc","--config","/etc/dnsmasq.conf","--","dnsmasq","--no-daemon"]
+
+# TODO: 5353/udp?
+EXPOSE 80/tcp 67/udp
+
+# run!
+ENTRYPOINT ["webproc","--port","80","--config","/etc/dnsmasq.conf","--","dnsmasq","--no-daemon"]
