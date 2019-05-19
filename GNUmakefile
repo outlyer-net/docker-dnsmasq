@@ -27,12 +27,18 @@ DOCKER_PREFIX=$(subst armhf,arm32v7,$*)
 # armhf => arm
 # i386 => 386
 WEBPROC_ARCH=$(subst armhf,arm,$(subst i386,386,$*))
+# Alpine architecture name:
+# amd64 => x86_64
+# armhf => armv7
+# i386 => x86
+ALPINE_ARCH=$(subst armhf,armv7,$(subst i386,x86,$(subst amd64,x86_64,$*)))
 
 all: $(DOCKERFILES) $(IMAGES_TARGET)
 
 %.Dockerfile: $(DOCKERFILE_IN)
 	sed -e 's#DOCKER_PREFIX=.*$$#DOCKER_PREFIX=$(DOCKER_PREFIX)#' \
 		-e 's!ARCHITECTURE=.*$$!ARCHITECTURE=$(WEBPROC_ARCH)!' \
+		-e 's!ALPINE_ARCH=.*$$!ALPINE_ARCH=$(ALPINE_ARCH)!' \
 		-e 's/armhf architecture\./$* architecture\./' $< > $@
 
 $(IMAGE_NAME).latest-%: %.Dockerfile

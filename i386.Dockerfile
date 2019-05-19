@@ -3,6 +3,7 @@ ARG ARCHITECTURE=386
 # Stage 0: Preparations. To be run on the build host
 FROM alpine:latest
 ARG ARCHITECTURE
+ARG ALPINE_ARCH=x86
 # webproc release settings
 ARG WEBPROC_VERSION=0.2.2
 ARG WEBPROC_URL="https://github.com/jpillora/webproc/releases/download/$WEBPROC_VERSION/webproc_linux_${ARCHITECTURE}.gz"
@@ -11,10 +12,13 @@ RUN wget -O - ${WEBPROC_URL} | gzip -d > /webproc \
 	&& chmod 0755 /webproc
 # dnsmasq configuration
 RUN echo -e "ENABLED=1\nIGNORE_RESOLVCONF=yes" > /dnsmasq.default
+# FIXME: This is an ugly hack, but can't run apk cross-platform on stage 1
+RUN apk update \
+	&& wget -O dnsmasq.apk `apk policy dnsmasq | tail -1`/${ALPINE_ARCH}/dnsmasq-`apk policy dnsmasq \
+		| sed -e '2!d' -e 's/ *//' -e 's/://'`.apk
 
 # Stage 1: The actual produced image
 FROM ${DOCKER_PREFIX}/alpine:latest
-FROM alpine:edge
 LABEL maintainer="Toni Corvera <outlyer@gmail.com>"
 ARG ARCHITECTURE
 # import webproc binary from previous stage
