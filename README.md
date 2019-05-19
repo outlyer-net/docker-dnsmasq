@@ -48,7 +48,7 @@ support for i386 and arm besides amd64.
    	-e "HTTP_USER=foo" \
    	-e "HTTP_PASS=bar" \
    	--restart always \
-   	jpillora/dnsmasq
+   	outlyernet/dnsmasq-multiarch
    ```
 
 1. Visit `http://<docker-host>:5380`, authenticate with `foo/bar` and you should see
