@@ -40,6 +40,10 @@ COPY --from=0 /usr/sbin/dnsmasq /usr/local/sbin/
 COPY --from=0 /dnsmasq.default /etc/default/dnsmasq
 COPY dnsmasq.conf /etc/dnsmasq.conf
 
+# The dhcp.leases files is put here, may want to mount as tmpfs
+# XXX: should this be preserved?
+VOLUME [ "/var/lib/misc" ]
+
 # Ports:
 #  80: Web interface
 #  67: DHCP
