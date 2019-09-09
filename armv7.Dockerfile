@@ -53,3 +53,8 @@ EXPOSE 80/tcp 67/udp 53/tcp 53/udp
 # run!
 ENTRYPOINT ["webproc","--port","80","--config","/etc/dnsmasq.conf","--","dnsmasq","--no-daemon"]
 
+HEALTHCHECK --interval=30s \
+	--timeout=30s \
+	--start-period=10s \
+	--retries=3 \
+	CMD [ "pidof", "dnsmasq" ]
