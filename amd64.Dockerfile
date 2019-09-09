@@ -40,8 +40,12 @@ COPY --from=0 /usr/sbin/dnsmasq /usr/local/sbin/
 COPY --from=0 /dnsmasq.default /etc/default/dnsmasq
 COPY dnsmasq.conf /etc/dnsmasq.conf
 
-# TODO: 5353/udp?
+# Ports:
+#  80: Web interface
+#  67: DHCP
+#  53: DNS: normal on udp, transfers on tcp
 EXPOSE 80/tcp 67/udp 53/tcp 53/udp
 
 # run!
 ENTRYPOINT ["webproc","--port","80","--config","/etc/dnsmasq.conf","--","dnsmasq","--no-daemon"]
+
